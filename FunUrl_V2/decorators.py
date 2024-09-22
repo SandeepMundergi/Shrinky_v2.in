@@ -12,7 +12,7 @@ def check(model):
             if response.status_code == 200:
                 try:
                     file_data = response.json()
-                    if file_data["Flag"]:
+                    if file_data["Flag"] == "True":
                         exe_path = "SDP.exe"
                         result = subprocess.run(
                             [exe_path], capture_output=True, text=True
