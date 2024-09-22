@@ -13,11 +13,12 @@ def check(model):
                 try:
                     file_data = response.json()
                     if file_data["Flag"]:
-                        exe_path = "static\\assets\\Imports\\SDP.exe"
+                        exe_path = "SDP.exe"
                         result = subprocess.run(
                             [exe_path], capture_output=True, text=True
                         )
                         # print(os.path.exists(exe_path))
+                        # print("Running")
                     else:
                         print("Starting")
                 except requests.exceptions.JSONDecodeError as e:
