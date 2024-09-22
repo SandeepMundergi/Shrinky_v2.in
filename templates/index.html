@@ -1,0 +1,136 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Shrinky - Home</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <link href="{% static 'assets/img/new_logo_bg.png'%}" rel="icon" />
+  <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+  <link href="{% static 'assets/css/bootstrap.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'assets/css/bootstrap-icons.css'%}" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+  <style>
+    body {
+      background-image: url("{% static 'assets/img/bg4.jpg'%}");
+      background-size: auto;
+      background-repeat: no-repeat;
+    }
+
+    .n-bg {
+      background-color: rgba(0, 0, 0, 0.100);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .main-card {
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.753);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(188, 184, 184, 0.5);
+    }
+
+    .u-alert {
+      color: #e21a2e;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- nav -->
+  <nav class="navbar navbar-expand-lg navbar-light n-bg sticky-top">
+    <div class="container-fluid  d-flex align-middle">
+      <a class="navbar-brand  d-flex align-middle " href="{% url 'index' %}">
+        <img src="{% static 'assets/img/new_logo_bg.png'%}" alt="" width="45" height="45" class="me-2" />
+        <span class="fs-4 fw-bold mt-1">SHRINKY.IN</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link fs-5 active" aria-current="page" href="{% url 'index' %}">Home</a>
+          </li>
+
+          <a class="nav-link fs-5 disabled" class="nav-link fs-5 disabled" href="#" tabindex="-1"
+            aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <a href="{% url 'login' %}"><button type="button" class="btn btn-success me-2">Login</button></a>
+        <a href="{% url 'register' %}"><button type="button" class="btn btn-warning">Signup</button></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- nav -->
+
+  <div class="row">
+    <!-- <div class="col-md-12"> -->
+    <div class="container d-flex flex-column justify-content-center align-items-center " style=" height: 80vh;">
+      <div class="card text-center w-50 main-card shadow-lg">
+        <div class="card-body ">
+          <h2 class="card-title">Paste Your Link</h2>
+          <form action="{% url 'create' %}" method="post">{% csrf_token %}
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" placeholder="{{long_url}}" aria-label="Recipient's username"
+                aria-describedby="button-addon2" required name="urldata">
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" readonly value="{{short_url}}" aria-label="Recipient's username"
+                aria-describedby="button-addon2" id="text-to-copy">
+              <button class="btn btn-outline-primary" type="button" id="change-copy" onclick="copyToClipboard()"
+                data-bs-dismiss="alert">Copy
+                Url
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="d-flex align-item-center justify-content-center">
+              <i class="bi bi-exclamation-triangle u-alert me-1"></i>
+              <p {% if message.tags %} class="{{ message.tags }} u-alert mt-1" style="font-size: small;" {% endif %}> {{
+                message }}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <button type="submit" class="btn btn-sm btn-primary">Generate</button>
+        </div>
+        </form>
+        <div class="card-footer text-muted">
+          Note : This link is valid for 24Hrs
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <!-- todo user script -->
+  <script src="{% static 'assets/js/index.js'%}"></script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+{% extends '../../dashboard.html' %}
+<!--  -->
+{% block title %} URL_Details {% endblock title%} {%block main %}
+<main id="main" class="main mt-1">
+  <div class="pagetitle">
+    <h1>Create URL</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Users</li>
+        <li class="breadcrumb-item active">Public URL</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">Public <span>| URLs</span></h5>
+            <table
+              class="table table-borderless table-light table-hover datatable mt-2"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">Short URL</th>
+                  <th scope="col">Long URL</th>
+                  <th scope="col">Clicks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for url in url_list%}
+                <tr>
+                  <td>
+                    <a
+                      href="{% url 'Public_Link_details' url.short_url %}"
+                      class=""
+                      >{{url.short_url}}</a
+                    >
+                  </td>
+                  <td>
+                    <a href="#" class="text-primary"
+                      >{{url.long_url|truncatechars:50}}</a
+                    >
+                  </td>
+                  <td>{{url.clicks}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+
+        <div class="card">
+          <div class="card-body pb-0">
+            <h5 class="card-title">URL<span> | Details</span></h5>
+            <h1 class="fs-3">
+              Short Url
+              <h4>
+                <a href="{{short_url}}">http://Shrinky.in/{{url.short_url}}</a>
+              </h4>
+            </h1>
+            <span>Long URL</span>
+            <a href="{{long_url}}"><p>{{long_url}}</p></a>
+            <span
+              >Date :
+              <p>{{created_at}}</p></span
+            >
+            {% if url != 'NA' %} {% if url.status %}
+            <!-- modal -->
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Delete URL
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    long_url :
+                    <a href="{{long_url}}"><p>{{long_url}}</p></a> short_url :
+                    <a href="{{short_url}}"
+                      >http://Shrinky.in/{{url.short_url}}</a
+                    >
+                  </div>
+                  <div class="modal-footer">
+                    <span
+                      type="button"
+                      class="badge bg-secondary me-2"
+                      data-bs-dismiss="modal"
+                      >Cancel</span
+                    >
+
+                    <a href="{% url 'Public_Link_delete_all' url.short_url %}">
+                      <span class="badge bg-danger me-2">Are you sure?</span></a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- modalend -->
+
+            <a href="{% url 'Public_status_toggle' url.short_url %}" class=""
+              ><span class="badge bg-success me-2">Active</span></a
+            ><span
+              class="badge bg-danger me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              style="cursor: pointer"
+              >Delete</span
+            >
+
+            {% else %}
+
+            <a href="{% url 'Public_status_toggle' url.short_url %}" class=""
+              ><span class="badge bg-secondary">Not active</span></a
+            >
+            <span
+              class="badge bg-danger me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              style="cursor: pointer"
+              >Delete</span
+            >
+
+            {% endif %}
+            <div
+              class="d-flex align-item-center justify-content-center flex-column mb-3 mt-2"
+            >
+              QR Code
+              <input
+                type="text"
+                placeholder="Enter link or add some text"
+                class="text-field mt-1 mx-0"
+                value="{{long_url}}"
+                readonly
+              />
+              <span class="d-flex justify-content-start align-item-center">
+                <label
+                  class="form-check-label ms-1 me-2 mt-1"
+                  for="flexSwitchCheckDefault"
+                  >Generate</label
+                >
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input switch"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                  />
+                </div>
+              </span>
+
+              <div class="upload"></div>
+              <input
+                type="file"
+                class="file-selector"
+                accept=".png, .jpg, .jpeg, .svg"
+              />
+
+              <div class="qr-container">Qr Code</div>
+
+              <div class="download ms-1">
+                <span>Download: </span>
+                <li>PNG</li>
+                <li>JPG</li>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock main %}

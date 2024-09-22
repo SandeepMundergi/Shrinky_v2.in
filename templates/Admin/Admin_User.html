@@ -1,0 +1,86 @@
+{% extends './Base.html' %}
+<!--  -->
+{% block title %} Users {% endblock title%} {%block main %}
+<main id="main" class="main mt-1">
+    <div class="pagetitle">
+        <h1>Users</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Users</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">All <span>| Users</span></h5>
+                                <table class="table table-borderless datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Contact</th>
+                                            <th scope="col">Edits</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in user_list%}
+
+                                        <!--  -->
+                                        <div class="modal fade" id="Modal{{user.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                            Delete User
+                                                        </h5>
+                                                        <button type="button" class="btn-close h1" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Name : {{user.name}}</p>
+                                                        <p>Username : {{user.username}}</p>
+                                                        <p>Email : {{user.email}}</p>
+                                                        <p>Contact : {{user.contact}}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <span type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancle</span>
+
+                                                        <a href="{%url 'Users_delete' user.id %}">
+                                                            <span class="btn btn-danger btn-sm">Are you sure?</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  -->
+                                        <tr>
+                                            <th scope="row">#{{user.id}}</th>
+
+                                            <td>{{user.name}}</td>
+                                            <td>{{user.username}}</td>
+                                            <td>{{user.email}}</td>
+                                            <td>{{user.contact}}</td>
+                                            <td>
+                                                <i class="bi bi-pencil-square text-success h4"></i>
+                                                <a href="" data-bs-toggle="modal" data-bs-target="#Modal{{user.id}}"><i class="bi bi-trash text-danger h4"></i>
+
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock main %}

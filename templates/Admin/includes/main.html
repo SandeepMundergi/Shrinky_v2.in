@@ -1,0 +1,325 @@
+{% extends '../dashboard.html' %}
+<!--  -->
+{% block title %} Dashboard {% endblock title%} {%block main %}
+<main id="main" class="main mt-1">
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"
+                    ><i class="bi bi-three-dots"></i
+                  ></a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                  >
+                    <li class="dropdown-header text-start">
+                      <h6>URL</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="1">Public</a></li>
+                    <li><a class="dropdown-item" href="2">Private</a></li>
+                    <li><a class="dropdown-item" href="3">Custom</a></li>
+                  </ul>
+                </div>
+                <h5 class="card-title">Total <span>| {{title}} URLs </span></h5>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-cart"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{total_url}}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"
+                    ><i class="bi bi-three-dots"></i
+                  ></a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                  >
+                    <li class="dropdown-header text-start">
+                      <h6>URL</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="1">Public</a></li>
+                    <li><a class="dropdown-item" href="2">Private</a></li>
+                    <li><a class="dropdown-item" href="3">Custom</a></li>
+                  </ul>
+                </div>
+                <h5 class="card-title">
+                  Total Number Of <span>| Clicks</span>
+                </h5>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-hand-index-thumb"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>
+                      {% if total_clicks == None %} 0 {% else %}{{total_clicks}}
+                      {% endif %}
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"
+                    ><i class="bi bi-three-dots"></i
+                  ></a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                  >
+                    <li class="dropdown-header text-start">
+                      <h6>URL</h6>
+                    </li>
+                    <li><a class="dropdown-item" href="1">Public</a></li>
+                    <li><a class="dropdown-item" href="2">Private</a></li>
+                    <li><a class="dropdown-item" href="3">Custom</a></li>
+                  </ul>
+                </div>
+                <h5 class="card-title">Today <span>| Clicks</span></h5>
+                <div class="d-flex align-items-center">
+                  <div
+                    class="card-icon rounded-circle d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-bar-chart-line"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{today_clicks}}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Reports <span>/Today</span></h5>
+                <div id="reportsChart"></div>
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    new ApexCharts(document.querySelector("#reportsChart"), {
+                      series: [
+                        {
+                          name: "Total Urls",
+                          data: [31, 40, 28, 51, 42, 82, 56],
+                        },
+                        {
+                          name: "Number of Clicks",
+                          data: [11, 32, 45, 32, 34, 52, 41],
+                        },
+                        {
+                          name: "Today Clicks",
+                          data: [15, 11, 32, 18, 9, 24, 11],
+                        },
+                      ],
+                      chart: {
+                        height: 350,
+                        type: "area",
+                        toolbar: {
+                          show: false,
+                        },
+                      },
+                      markers: {
+                        size: 4,
+                      },
+                      colors: ["#4154f1", "#2eca6a", "#ff771d"],
+                      fill: {
+                        type: "gradient",
+                        gradient: {
+                          shadeIntensity: 1,
+                          opacityFrom: 0.3,
+                          opacityTo: 0.4,
+                          stops: [0, 90, 100],
+                        },
+                      },
+                      dataLabels: {
+                        enabled: false,
+                      },
+                      stroke: {
+                        curve: "smooth",
+                        width: 2,
+                      },
+                      xaxis: {
+                        type: "datetime",
+                        categories: [
+                          "2018-09-19T00:00:00.000Z",
+                          "2018-09-19T01:30:00.000Z",
+                          "2018-09-19T02:30:00.000Z",
+                          "2018-09-19T03:30:00.000Z",
+                          "2018-09-19T04:30:00.000Z",
+                          "2018-09-19T05:30:00.000Z",
+                          "2018-09-19T06:30:00.000Z",
+                        ],
+                      },
+                      tooltip: {
+                        x: {
+                          format: "dd/MM/yy HH:mm",
+                        },
+                      },
+                    }).render();
+                  });
+                </script>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Public <span>| URLs</span></h5>
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Short URL</th>
+                      <th scope="col">Long URL</th>
+                      <th scope="col">Clicks</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for url in url_list%}
+                    <tr>
+                      <th scope="row">#{{forloop.counter}}</th>
+
+                      <td>{{url.short_url}}</td>
+                      <td>
+                        <a href="#" class="text-primary"
+                          >{{url.long_url|truncatechars:50}}</a
+                        >
+                      </td>
+                      <td>{{url.clicks}}</td>
+                      {% if url.status %}
+                      <td>
+                        <span class="badge bg-success me-2">Active</span>
+                      </td>
+
+                      {% else %}
+                      <td>
+                        <span class="badge bg-secondary">Not active</span>
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Private <span>| URLs</span></h5>
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Short URL</th>
+                      <th scope="col">Long URL</th>
+                      <th scope="col">Clicks</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for url in url_list1%}
+                    <tr>
+                      <th scope="row">#{{forloop.counter}}</th>
+
+                      <td>{{url.short_url}}</td>
+                      <td>
+                        <a href="#" class="text-primary"
+                          >{{url.long_url|truncatechars:50}}</a
+                        >
+                      </td>
+                      <td>{{url.clicks}}</td>
+                      {% if url.status %}
+                      <td>
+                        <span class="badge bg-success me-2">Active</span>
+                      </td>
+
+                      {% else %}
+                      <td>
+                        <span class="badge bg-secondary">Not active</span>
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Custom <span>| URLs</span></h5>
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Short URL</th>
+                      <th scope="col">Long URL</th>
+                      <th scope="col">Clicks</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for url in url_list2%}
+                    <tr>
+                      <th scope="row">#{{forloop.counter}}</th>
+
+                      <td>{{url.short_url}}</td>
+                      <td>
+                        <a href="{{url.long_url}}" class="text-primary"
+                          >{{url.long_url|truncatechars:50}}</a
+                        >
+                      </td>
+                      <td>{{url.clicks}}</td>
+                      {% if url.status %}
+                      <td>
+                        <span class="badge bg-success me-2">Active</span>
+                      </td>
+
+                      {% else %}
+                      <td>
+                        <span class="badge bg-secondary">Not active</span>
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock main %}

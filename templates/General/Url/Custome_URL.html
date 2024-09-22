@@ -1,0 +1,226 @@
+{% extends '../../dashboard.html' %}
+<!--  -->
+{%block main %}
+<main id="main" class="main mt-1">
+  <div class="pagetitle">
+    <h1>Create URL</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Users</li>
+        <li class="breadcrumb-item active">
+          Custom Url
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card">
+          <div class="card-body profile-card d-flex flex-column align-items-center justify-middile">
+            <h2 class="card-title">Paste Your Link</h2>
+            <form action="{% url 'Custom_URL_create'%}" class="form-group w-100" method="post">
+              {% csrf_token %}
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control" placeholder="{{long_url}}" aria-label="Recipient's username" aria-describedby="button-addon2" required name="urldata">
+              </div>
+              <div class="input-group input-group-sm mb-3 ">
+                <span class="input-group-text" id="basic-addon3">Shrinky.in/{{user_id}}/</span>
+                <input type="text" placeholder="{{name}}" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="urlname" required pattern="[a-zA-Z0-9]+">
+              </div>
+              <div class="input-group input-group-sm mb-2">
+                <input type="text" class="form-control" readonly value="{{short_url}}" aria-label="Recipient's username" aria-describedby="button-addon2" id="text-to-copy">
+                <button class="btn btn-outline-primary" type="button" id="change-copy" onclick="copyToClipboard()" data-bs-dismiss="alert">Copy
+                  Url</button>
+              </div>
+              {% if messages %}
+              {% for message in messages %}
+              <div class="d-flex align-item-center justify-content-center">
+                <i class="bi bi-exclamation-triangle u-alert me-1"></i>
+                <p {% if message.tags %} class="{{ message.tags }} u-alert mt-1" style="font-size: small;" {% endif %}> {{ message }}</p>
+              </div>
+              {% endfor %}
+              {% endif %}
+              <button type="submit" class="btn btn-sm btn-primary mb-1">Generate</button>
+          </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="card">
+          <div class="card-body">
+            <!-- <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"
+                    ><i class="bi bi-three-dots"></i
+                  ></a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                  >
+                    <li class="dropdown-header text-start">
+                      <h6>Report</h6>
+                      {% if url_id == 1 %}
+                    </li>
+
+                    <li>
+                      <a class="dropdown-item" href="p/1">Days</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="p/2">Months</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="p/3">Years</a>
+                    </li>
+
+                    {% elif url_id == 2 %}
+                    <li>
+                      <a class="dropdown-item" href="pr/1">Days</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pr/2">Months</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pr/3">Years</a>
+                    </li>
+
+                    {% else %}
+                    <li>
+                      <a class="dropdown-item" href="c/1">Days</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="c/2">Months</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="c/3">Years</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </div> -->
+            <h5 class="card-title">Today Clicks</h5>
+            {{label}}
+            <canvas id="barChart2" style="max-height: 150px"></canvas>
+            <script>
+              let label2 = [];
+              let item2 = [];
+              var data2 = "{{label_date}}";
+              var value2 = JSON.parse("{{label_value}}");
+              var a2 = data2.split(",");
+              a2.forEach((i) => {
+                var d2 = i.split(";")[1].split("&#x27")[0];
+                label2.push(d2);
+              });
+              document.addEventListener("DOMContentLoaded", () => {
+                new Chart(document.querySelector("#barChart2"), {
+                  type: "bar",
+                  data: {
+                    labels: label2,
+                    datasets: [
+                      {
+                        label: "Url",
+                        data: value2,
+
+                        backgroundColor: ["rgba(13, 99, 255,0.2)"],
+                        borderColor: ["rgb(13, 99, 255)"],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+              });
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card recent-sales overflow-auto">
+          <div class="card-body">
+            <h5 class="card-title">
+              Custom
+              <span>| URLs</span>
+            </h5>
+            <table class="table table-borderless datatable">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Short URL</th>
+                  <th scope="col">Long URL</th>
+                  <th scope="col">Clicks</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for url in url_list%}
+                <!-- Model -->
+                <div class="modal fade" id="Modal{{url.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Delete URL
+                        </h5>
+                        <button type="button" class="btn-close h1" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        long_url :
+                        <a href="{{long_url}}">
+                          <p>{{url.long_url}}</p>
+                        </a> short_url :
+                        <a href="{{short_url}}">http://Shrinky.in/{{url.user_id}}/{{url.short_url}}</a>
+                      </div>
+                      <div class="modal-footer">
+                        <span type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</span>
+
+                        <a href="{% url 'Custom_Link_delete' url.short_url %}">
+                          <span class="btn btn-danger btn-sm">Are you sure?</span></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modelend -->
+
+
+
+
+                <tr>
+                  <th scope="row">
+                    <a href="" class="" data-bs-toggle="modal" data-bs-target="#Modal{{url.id}}"><i class="bi bi-trash" style="color: rgb(207, 32, 32)"></i>
+                    </a>
+                  </th>
+
+                  <td>
+                    <a href="{% url 'Custom_Link_details' url.short_url %}" class="">{{url.short_url}}</a>
+                  </td>
+                  <td>
+                    <a href="#" class="text-primary">{{url.long_url|truncatechars:50}}</a>
+                  </td>
+                  <td>{{url.clicks}}</td>
+                  {% if url.status %}
+                  <td>
+                    <a href="{% url 'Custom_Link_status_toggle' url.short_url %}" class=""><span class="badge bg-success">Active</span></a>
+                  </td>
+
+                  {% else %}
+                  <td>
+                    <a href="{% url 'Custom_Link_status_toggle' url.short_url %}" class=""><span class="badge bg-secondary">Not active</span></a>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock main%}

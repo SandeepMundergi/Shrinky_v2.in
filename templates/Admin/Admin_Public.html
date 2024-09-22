@@ -1,0 +1,68 @@
+{% extends './Base.html' %}
+<!--  -->
+{% block title %} Public_URL {% endblock title%} {%block main %}
+<main id="main" class="main mt-1">
+  <div class="pagetitle">
+    <h1>Public</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Public_URL</li>
+      </ol>
+    </nav>
+  </div>
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Public <span>| URLs</span></h5>
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">User id</th>
+                      <th scope="col">Short URL</th>
+                      <th scope="col">Long URL</th>
+                      <th scope="col">Clicks</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for url in url_list%}
+                    <tr>
+                      <th scope="row">#{{forloop.counter}}</th>
+
+                      <td>{{url.user_id}}</td>
+                      <td>{{url.short_url}}</td>
+                      <td>
+                        <a href="{{url.long_url}}" class="text-primary"
+                          >{{url.long_url|truncatechars:50}}</a
+                        >
+                      </td>
+                      <td>{{url.clicks}}</td>
+                      {% if url.status %}
+                      <td>
+                        <span class="badge bg-success me-2">Active</span>
+                      </td>
+
+                      {% else %}
+                      <td>
+                        <span class="badge bg-secondary">Not active</span>
+                      </td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock main %}

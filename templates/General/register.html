@@ -1,0 +1,173 @@
+{% extends 'General/base.html' %} {%load static%}
+<!--  -->
+{% block title %} Shrinky_Register {%endblock title%} {% block body %}
+<main>
+  <div class="container">
+    <section
+      class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div
+            class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center shadow-lg p-3 mb-3 bg-body rounded"
+          >
+            <div class="d-flex justify-content-center py-2">
+              <a
+                href="{% url 'index'%}"
+                class="logo d-flex align-items-center w-auto flex-column"
+              >
+                <img
+                  src="{% static 'assets/img/new_logo_bg.png'%}"
+                  alt=""
+                  width="50"
+                  height="50"
+                />
+                <span class="fs-4 fw-bold mt-1 text-dark text-decoration-none"
+                  >SHRINKY.IN</span
+                >
+              </a>
+            </div>
+            <div class="card mb-2">
+              <div class="card-body">
+                <div class="pt-2 pb-1">
+                  <h5 class="card-title text-center pb-0 fs-4">
+                    Create an Account
+                  </h5>
+                  <p class="text-center small">
+                    Enter your personal details to create account
+                  </p>
+                </div>
+                <form
+                  class="row g-3 needs-validation"
+                  novalidate
+                  method="POST"
+                  action="{% url 'register' %}"
+                  enctype="multipart/form-data"
+                >
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="yourName" class="form-label">Your Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      class="form-control"
+                      id="yourName"
+                      required
+                    />
+                    <div class="invalid-feedback">Please, enter your name!</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="yourEmail" class="form-label">Your Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      id="yourEmail"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please enter a valid Email adddress!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="yourPhno" class="form-label"
+                      >Your Phone number</label
+                    >
+                    <input
+                      type="tel"
+                      name="phno"
+                      class="form-control"
+                      id="yourPhno"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please enter a valid Phone number!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="yourUsername" class="form-label"
+                      >Username</label
+                    >
+                    <div class="input-group has-validation">
+                      <span class="input-group-text" id="inputGroupPrepend"
+                        >@</span
+                      >
+                      <input
+                        type="text"
+                        name="username"
+                        class="form-control"
+                        id="yourUsername"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Please choose a username.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="yourPassword" class="form-label"
+                      >Password</label
+                    >
+                    <input
+                      type="password"
+                      name="password"
+                      class="form-control"
+                      id="yourPassword"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please enter your password!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="formFile" class="form-label"
+                      >Upload Profile Pic</label
+                    >
+                    <input
+                      class="form-control form-control-sm"
+                      type="file"
+                      id="formFile"
+                      name="profile_picture"
+                    />
+                  </div>
+                  {%for message in messages %}
+                  <div class="text-danger">{{message}}.</div>
+                  {% endfor %}
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        name="terms"
+                        type="checkbox"
+                        value=""
+                        id="acceptTerms"
+                        required
+                      />
+                      <label class="form-check-label" for="acceptTerms"
+                        >I agree and accept the
+                        <a href="#">terms and conditions</a></label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit">
+                      Create Account
+                    </button>
+                  </div>
+                  <div class="col-12">
+                    <p class="small mb-0">
+                      Already have an account?
+                      <a href="{% url 'login' %}">Log in</a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+{% endblock body %}

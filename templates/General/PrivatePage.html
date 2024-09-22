@@ -1,0 +1,72 @@
+{% extends 'General/base.html' %} {%load static%}
+<!--  -->
+{% block title %} Private URL {%endblock title%} {% block body %}
+<main>
+  <div class="container">
+    <section
+      class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div
+            class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center shadow-lg p-3 mb-5 bg-body rounded"
+          >
+            <div
+              class="d-flex justify-content-center flex-column align-items-center py-4"
+            >
+              <img
+                src="{% static 'assets/img/new_logo_bg.png'%}"
+                alt=""
+                width="50"
+                height="50"
+              />
+              <span class="fs-4 fw-bold mt-1 text-dark text-decoration-none"
+                >SHRINKY.IN</span
+              >
+            </div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="pt-1 pb-2">
+                  <h5 class="card-title text-center pb-0 fs-4">
+                    Private Passcode
+                  </h5>
+                  <p class="text-center small">Enter password to Open</p>
+                </div>
+                <form
+                  class="row g-3 needs-validation"
+                  method="POST"
+                  action="{% url 'redirect_private' url %}"
+                  enctype="multipart/form-data"
+                >
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="yourPassword" class="form-label"
+                      >Password</label
+                    >
+                    <input
+                      type="password"
+                      name="pwd"
+                      class="form-control"
+                      id="yourPassword"
+                      required
+                    />
+                    {%for message in messages %}
+                    <div class="text-danger">{{message}}.</div>
+                    {% endfor %}
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100" type="submit">
+                      Open
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+{% endblock body %}
